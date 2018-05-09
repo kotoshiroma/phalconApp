@@ -1,7 +1,56 @@
-<div class="page-header">
-    <h1>Congratulations!</h1>
-</div>
+<?php
 
-<p>You're now flying with Phalcon. Great things are about to happen!</p>
+echo "<h1>Hello!</h1>";
+echo __DIR__."<br>";
+echo $_SERVER['SERVER_NAME']."<br>";
+echo $_SERVER['SERVER_ADDR']."<br>";
+echo $_SERVER['REMOTE_ADDR']."<br>";
+echo $_SERVER['REQUEST_METHOD']."<br>";
+echo $_SERVER['REMOTE_PORT']."<br>";
 
-<p>This page is located at <code>views/index/index.phtml</code></p>
+echo PHP_EOL;
+
+echo $this->tag->linkTo(
+// echo Phalcon\Tag::linkTo(
+    "signup",
+    "Sign Up Here!!!"
+);
+
+
+
+?>
+<p><?= $user->name; ?></p>
+<p>
+    <?php
+        foreach ($user_foundBy_email as $user) {
+            echo $user->name;
+            echo '<br>';
+        }
+    ?>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
