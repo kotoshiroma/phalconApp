@@ -2,14 +2,14 @@
 
 use Phalcon\Mvc\Controller;
 
-class SignupController extends Controller
+class UserController extends Controller
 {
     public function indexAction()
     {
 
     }
 
-    public function registerAction()
+    public function signUpAction()
     {
         $user = new Users();
         var_dump($this->request->getPost());
@@ -37,5 +37,15 @@ class SignupController extends Controller
         }
 
         $this->view->disable();
-    }    
+    }
+
+    public function signIn_by_yahooIdAction() {
+
+
+
+
+
+
+
+    }
 }
