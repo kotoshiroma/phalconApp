@@ -4,6 +4,9 @@
 
     {{ form("user/signUp", "method":"post") }}
         <p>
+            {{ text_field("name", "class":"parts_loginForm", "placeholder":"username") }}
+        </p>
+        <p>
             {{ email_field("email", "class":"parts_loginForm", "placeholder":"email") }}
         </p>
         <p>

@@ -4,6 +4,9 @@
 
     <?= $this->tag->form(['user/signUp', 'method' => 'post']) ?>
         <p>
+            <?= $this->tag->textField(['name', 'class' => 'parts_loginForm', 'placeholder' => 'username']) ?>
+        </p>
+        <p>
             <?= $this->tag->emailField(['email', 'class' => 'parts_loginForm', 'placeholder' => 'email']) ?>
         </p>
         <p>

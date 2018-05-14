@@ -22,38 +22,44 @@ class UserController extends Controller
 
     public function signUpAction() {
 
+        if ($this->request->isPost()) {
+
+            $user = new Users();
+            $user->name     = $this->request->getPost("name");
+            $user->email    = $this->request->getPost("email");
+            $user->password = $this->request->getPost("password");
+            $is_success = $user->save();
+    
+            if ($is_success) {
+                $this->flashSession->success("Thanks for registering!");
+                $this->dispatcher->setParam("user", $user);
+                $this->dispatcher->forward([
+                    "controller" => "user",
+                    "action" => "mypage",
+                ]);
+
+            } else {
+                $this->flash->error("Sorry, the following problems were generated: ");                
+                $messages = $user->getMessages();
+    
+                foreach ($messages as $message) {
+                    echo $message->getMessage(), "<br/>"; //カンマでいいのか
+                    // echo $message->getMessage()."<br/>";
+                }
+            }
+        }
     }
 
     public function signInAction() {
-
+        if ($this->request->isPost()) {
+            Users::findFirst([
+                "conditions" => "email = ?email AND password = "
+            ]);
+        }
     }
 
-    public function registerAction()
-    {
-        $user = new Users();
-
-        // saveメソッドの仕様を確認すること
-        $is_success = $user->save(
-            $this->request->getPost(),
-            [
-                'name',
-                'email'
-            ]
-        );
-
-        if ($is_success) {
-            echo "Thanks for registering!";
-        } else {
-            echo "Sorry, the following problems were generated: ";
-            $messages = $user->getMessage();
-
-            foreach ($messages as $message) {
-                echo $message->getMessage(), "<br/>"; //カンマでいいのか
-                // echo $message->getMessage()."<br/>";
-            }
-        }
-
-        $this->view->disable();
+    public function mypageAction() {
+        $this->view->user = $this->dispatcher->getParam("user");
     }
 
     // YahooのAuthorizationエンドポイントへリダイレクト(認可コード取得のため)
@@ -64,7 +70,7 @@ class UserController extends Controller
             'response_type' . "=" . 'code',
             'client_id'     . "=" . CLIENT_ID,
             'redirect_uri'  . "=" . CALLBACK_URI,
-            'scope'         . "=" . 'openid profile email' // openidとemailの2つを指定
+            'scope'         . "=" . 'openid profile email'
         ];
 
         $query = implode("&", $req_param);
@@ -84,16 +90,8 @@ class UserController extends Controller
         $access_token = $this->get_access_token($_REQUEST['code']);
         // アクセストークンをもとに、ユーザ情報を取得する 
         $userinfo     = $this->get_userinfo($access_token);
-        // var_dump($userinfo);
-        echo $userinfo->email."<br>";
-        
         // Yahooから取得したメールアドレスをもとに、テーブル検索する
-        $user = Users::findFirst([
-            // email => $userinfo->email
-            // "conditions" => "email = ".$userinfo->name
-            "conditions" => "email LIKE '%gmailaaaaaa%'",            
-        ]);
-
+        $user = Users::findFirstByEmail($userinfo->email);
         
         if (!$user) {
             // レコードが存在しない場合(未登録の場合)、新規登録フォームへ
@@ -104,13 +102,18 @@ class UserController extends Controller
 
         } else {
             // レコードが存在する場合(既存会員の場合)、ユーザーページへ
-
+            $this->dispatcher->setParam("user", $user);
+            $this->dispatcher->forward([
+                "controller" => "user",
+                "action"     => "mypage",
+            ]);
         }
     }
 
 
+/* ----------------------------------------------------------------------------------------- */
 
-    // 認可コードをもとに、アクセストークンを取得する 
+    /* 認可コードをもとに、アクセストークンを取得する */
     public function get_access_token($auth_code) {
 
         // ヘッダとパラメータをセット
@@ -124,7 +127,6 @@ class UserController extends Controller
 
         $req->addPostParameter('client_id',     CLIENT_ID);
         $req->addPostParameter('client_secret', CLIENT_SECRET);
-        // $req->addPostParameter('code',          $_REQUEST['code']);
         $req->addPostParameter('code',          $auth_code);
         $req->addPostParameter('redirect_uri',  CALLBACK_URI);
         $req->addPostParameter('grant_type',    'authorization_code');
@@ -136,7 +138,6 @@ class UserController extends Controller
         if ($res->getStatus() != 200) {
             error_log('HttpRequestError: get_access_token(): '.$res->getStatus());
             echo 'HttpRequestError: get_access_token(): '.$res->getStatus();
-            // return false;
             exit;
         }
         // 成功
@@ -154,7 +155,7 @@ class UserController extends Controller
         return $access_token;
     }
 
-    // アクセストークンをもとに、ユーザ情報を取得する 
+    /* アクセストークンをもとに、ユーザ情報を取得する */
     public function get_userinfo($access_token) {
         $req = new HTTP_Request2();
         $req->setUrl(ATTRIBUTE_ENDPOINT);
@@ -170,7 +171,6 @@ class UserController extends Controller
         if ($res->getStatus() != 200) {
             error_log('HttpRequestError: get_access_token(): '.$res->getStatus());
             echo 'HttpRequestError: get_access_token(): '.$res->getStatus();
-            // return false;
             exit;
         }
         // 成功

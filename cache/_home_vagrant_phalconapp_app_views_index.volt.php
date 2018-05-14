@@ -11,7 +11,8 @@
         <!-- <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->url->get('img/favicon.ico')?>"/> -->
     </head>
     <body class="body">
-        <div class="container flex--centering">
+        <!-- <div class="container"> -->
+        <div class="flex--centering">
             <?php echo $this->getContent(); ?>
         </div>
             
