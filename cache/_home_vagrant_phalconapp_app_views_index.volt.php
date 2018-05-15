@@ -11,10 +11,8 @@
         <!-- <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->url->get('img/favicon.ico')?>"/> -->
     </head>
     <body class="body">
-        <!-- <div class="container"> -->
-        <div class="flex--centering">
-            <?php echo $this->getContent(); ?>
-        </div>
+        <?= $this->partial('partial/header') ?>
+        <?php echo $this->getContent(); ?>
             
         <script src="../public/js/jquery-3.3.1.js"></script>
         <script src="../public/js/bootstrap.bundle.js"></script>

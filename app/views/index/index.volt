@@ -4,6 +4,7 @@
 
     {{ link_to("user/signIn", "Sign In"
         , "class":"btn btn-primary badge-pill parts_loginForm my-3") }}
+    <?php echo $locale; ?>
 </div>
 
 

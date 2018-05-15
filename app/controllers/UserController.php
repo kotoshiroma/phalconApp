@@ -2,7 +2,7 @@
 
 use Phalcon\Mvc\Controller;
 
-class UserController extends Controller
+class UserController extends ControllerBase
 {
     public function initialize() {
         //configファイルから各値を取得
@@ -102,6 +102,8 @@ class UserController extends Controller
 
         } else {
             // レコードが存在する場合(既存会員の場合)、ユーザーページへ
+            // $this->user = $user; // クラス変数へセット
+            $this->setUser($user);
             $this->dispatcher->setParam("user", $user);
             $this->dispatcher->forward([
                 "controller" => "user",
