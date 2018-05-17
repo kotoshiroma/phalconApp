@@ -108,7 +108,7 @@ class UserController extends ControllerBase
         $url = sprintf("Location:%s?%s", AUTHORIZATION_ENDPOINT, $query);
         // リダイレクト
         header($url);
-        exit;        
+        exit;
     }
 
     // Yahooからのコールバックアクション
@@ -121,7 +121,7 @@ class UserController extends ControllerBase
         $access_token = $this->get_access_token($_REQUEST['code']);
         // アクセストークンをもとに、ユーザ情報を取得する 
         $userinfo     = $this->get_userinfo($access_token);
-        // Yahooから取得したメールアドレスをもとに、テーブル検索する
+        // 取得したユーザ情報(メールアドレス)をもとに、テーブル検索する
         $user = Users::findFirstByEmail($userinfo->email);
         
         if (!$user) {
@@ -130,7 +130,6 @@ class UserController extends ControllerBase
                 "controller" => "user",
                 "action"     => "signUp",
             ]);
-
         } else {
             // レコードが存在する場合(既存会員の場合)、セッションにユーザ情報を保存し、トップページへ遷移
             $this->session->set("user", $user);
