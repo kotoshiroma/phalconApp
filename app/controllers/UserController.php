@@ -26,39 +26,27 @@ class UserController extends ControllerBase
 
         if ($this->request->isPost()) {
 
-            // バリデーションチェック
-            $req_data = $this->request->getPost();
-            if ($userform->isValid($req_data) == false) {
-                // バリデーションNG => エラーメッセージ出力
-                $messages = $userform->getMessages();
-                $err_msg_name = $userform->getMessages("name");
-                
-                foreach ($messages as $message) {
-                    $this->flashSession->message('error_sm', $message);
-                }
-            } else {
-                // バリデーションOK => DB登録
-                $user = new Users();
-                $user->name     = $this->request->getPost("name");
-                $user->email    = $this->request->getPost("email");
-                $user->password = $this->request->getPost("password");
+            // DB登録
+            $user = new Users();
+            $user->name     = $this->request->getPost("name");
+            $user->email    = $this->request->getPost("email");
+            $user->password = $this->request->getPost("password");
 
-                $is_success = $user->save();
+            $is_success = $user->save();
+
+            if ($is_success) {
+                $this->flashSession->success("Thanks for registering!");
+                $this->session->set("user", $user);
+                $this->dispatcher->forward([
+                    "controller" => "index",
+                    "action"     => "index",
+                ]);
+            } else {
+                $this->flashSession->error("Sorry, the following problems were generated: ");                
+                $messages = $user->getMessages();
     
-                if ($is_success) {
-                    $this->flashSession->success("Thanks for registering!");
-                    // $this->dispatcher->setParam("user", $user);
-                    $this->dispatcher->forward([
-                        "controller" => "user",
-                        "action"     => "mypage",
-                    ]);
-                } else {
-                    $this->flashSession->error("Sorry, the following problems were generated: ");                
-                    $messages = $user->getMessages();
-        
-                    foreach ($messages as $message) {
-                        echo $message->getMessage(), "<br/>";
-                    }
+                foreach ($messages as $message) {
+                    echo $message->getMessage(), "<br/>";
                 }
             }
         }
@@ -77,22 +65,28 @@ class UserController extends ControllerBase
 
             if (!$user) {
                 // レコードが存在しない場合、メッセージ表示
-                $this->flashSession->error("The email or password is incorrect.");
+                $this->flashSession->error($this->t->_("The email or password is incorrect."));
             } else {
-                // レコードが存在する場合、ユーザーページへ
-                // $this->user = $user; // クラス変数へセット
-                $this->setUser($user);
-                $this->dispatcher->setParam("user", $user);
+                // レコードが存在する場合、セッションにユーザ情報を保存し、トップページへ遷移
+                $this->session->set("user", $user);
                 $this->dispatcher->forward([
-                    "controller" => "user",
-                    "action"     => "mypage",
+                    "controller" => "index",
+                    "action"     => "index",
                 ]);
             }
         }
     }
 
+    public function logOutAction() {
+        $this->session->remove("user");
+        $this->dispatcher->forward([
+            "controller" => "index",
+            "action"     => "index",
+        ]);
+    }
+
     public function mypageAction() {
-        // $this->view->user = $this->dispatcher->getParam("user");
+
     }
 
 
@@ -138,13 +132,11 @@ class UserController extends ControllerBase
             ]);
 
         } else {
-            // レコードが存在する場合(既存会員の場合)、ユーザーページへ
-            // $this->user = $user; // クラス変数へセット
-            $this->setUser($user);
-            $this->dispatcher->setParam("user", $user);
+            // レコードが存在する場合(既存会員の場合)、セッションにユーザ情報を保存し、トップページへ遷移
+            $this->session->set("user", $user);
             $this->dispatcher->forward([
-                "controller" => "user",
-                "action"     => "mypage",
+                "controller" => "index",
+                "action"     => "index",
             ]);
         }
     }

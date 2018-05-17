@@ -3,14 +3,14 @@
 
         <h2><?php echo $t->_("Sign In"); ?></h2>
         <?php $this->flashSession->output(); ?>
-
-        <form action="/user/signIn" method="post">
+        
+        {{ form("user/signIn", "method":"post") }}
             <p>
-                <input type="email" name="email" class="parts_loginForm pl-2" placeholder="<?php echo $t->_("email"); ?>" required> 
+                <input type="email" name="email" class="parts_loginForm" placeholder="<?php echo $t->_("email"); ?>"> 
             </p>
             <p>
-                <input type="password" name="password" class="parts_loginForm pl-2" size="30"
-                         placeholder="<?php echo $t->_("password"); ?>" required>
+                <input type="password" name="password" class="parts_loginForm" size="30"
+                         placeholder="<?php echo $t->_("password"); ?>">
             </p>
             <p>
                 <button class="btn btn-primary badge-pill parts_loginForm">
@@ -18,7 +18,7 @@
                 </button>
             </p>
 
-        </form>
+        {{ end_form() }}
 
         <p style="color:gray;">
             もしくは

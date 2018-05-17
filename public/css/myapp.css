@@ -27,3 +27,11 @@
     line-height: 35px;
     width: 350px;
 }
+
+.float-l {
+    float: left;
+}
+
+.float-r {
+    float: right;
+}
