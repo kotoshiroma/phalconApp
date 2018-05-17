@@ -1,17 +1,21 @@
 <div class="flex--centering">
     <div class="flex--centering flex--direct_column form_login">
 
-        <h2>Sign In</h2>
-
+        <h2><?php echo $t->_("Sign In"); ?></h2>
+        <?php $this->flashSession->output(); ?>
+        
         <?= $this->tag->form(['user/signIn', 'method' => 'post']) ?>
             <p>
-                <?= $this->tag->emailField(['email', 'class' => 'parts_loginForm', 'placeholder' => 'email']) ?>
+                <input type="email" name="email" class="parts_loginForm" placeholder="<?php echo $t->_("email"); ?>"> 
             </p>
             <p>
-                <?= $this->tag->passwordField(['password', 'class' => 'parts_loginForm', 'size' => 30, 'placeholder' => 'password']) ?>
+                <input type="password" name="password" class="parts_loginForm" size="30"
+                         placeholder="<?php echo $t->_("password"); ?>">
             </p>
             <p>
-                <?= $this->tag->submitButton(['Sign In', 'class' => 'btn btn-primary badge-pill parts_loginForm']) ?>
+                <button class="btn btn-primary badge-pill parts_loginForm">
+                    <?php echo $t->_("Sign In"); ?>
+                </button>
             </p>
 
         <?= $this->tag->endForm() ?>

@@ -1,20 +1,28 @@
 <div class="flex--centering" >
     <div class="flex--centering flex--direct_column form_login">
 
-        <h2>Sign Up</h2>
+        <h2><?php echo $t->_("Sign Up"); ?></h2>
+        <?php $this->flashSession->output(); ?>
 
         <?= $this->tag->form(['user/signUp', 'method' => 'post']) ?>
             <p>
-                <?= $this->tag->textField(['name', 'class' => 'parts_loginForm', 'placeholder' => 'username']) ?>
+                 <?php 
+                    echo $userform->render("name", [
+                         "class" => "parts_loginForm pl-2", 
+                         "placeholder" => $t->_("username")
+                    ]); 
+                 ?>
             </p>
             <p>
-                <?= $this->tag->emailField(['email', 'class' => 'parts_loginForm', 'placeholder' => 'email']) ?>
+                 <?php echo $userform->render("email", ["class" => "parts_loginForm pl-2", "placeholder" => $t->_("email")]); ?>               
             </p>
             <p>
-                <?= $this->tag->passwordField(['password', 'class' => 'parts_loginForm', 'size' => 30, 'placeholder' => 'password']) ?>
+                 <?php echo $userform->render("password", ["class" => "parts_loginForm pl-2", "placeholder" => $t->_("password")]); ?>                
             </p>
             <p>
-                <?= $this->tag->submitButton(['Sign Up', 'class' => 'btn btn-primary badge-pill parts_loginForm']) ?>
+                <button class="btn btn-primary badge-pill parts_loginForm">
+                    <?php echo $t->_("Sign Up"); ?>
+                </button>
             </p>
 
         <?= $this->tag->endForm() ?>

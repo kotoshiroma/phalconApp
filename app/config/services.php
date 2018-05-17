@@ -7,7 +7,8 @@ use Phalcon\Mvc\Url;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
-use Phalcon\Flash\Direct as Flash;
+use Phalcon\Flash\Direct as FlashDirect;
+use Phalcon\Flash\Session as FlashSession;
 
 
 $di->setShared('config', function () {
@@ -38,7 +39,8 @@ $di->setShared('view', function () {
 
             $volt->setOptions([
                 'compiledPath' => $config->application->cacheDir,
-                'compiledSeparator' => '_'
+                'compiledSeparator' => '_',
+                'compileAlways' => true // 追加
             ]);
 
             return $volt;
@@ -86,11 +88,21 @@ $di->setShared('modelsMetadata', function () {
  * Register the session flash service with the Twitter Bootstrap classes
  */
 $di->set('flash', function () {
-    return new Flash([
+    return new FlashDirect([
         'error'   => 'alert alert-danger',
         'success' => 'alert alert-success',
         'notice'  => 'alert alert-info',
         'warning' => 'alert alert-warning'
+    ]);
+});
+
+$di->set('flashSession', function () {
+    return new FlashSession([
+        'error'    => 'alert alert-danger',
+        'error_sm' => 'alert alert-danger alert--sm',
+        'success'  => 'alert alert-success',
+        'notice'   => 'alert alert-info',
+        'warning'  => 'alert alert-warning',
     ]);
 });
 

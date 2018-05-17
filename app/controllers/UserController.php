@@ -22,45 +22,82 @@ class UserController extends ControllerBase
 
     public function signUpAction() {
 
+        $userform = new UsersForm();
+
         if ($this->request->isPost()) {
 
-            $user = new Users();
-            $user->name     = $this->request->getPost("name");
-            $user->email    = $this->request->getPost("email");
-            $user->password = $this->request->getPost("password");
-            $is_success = $user->save();
-    
-            if ($is_success) {
-                $this->flashSession->success("Thanks for registering!");
-                $this->dispatcher->setParam("user", $user);
-                $this->dispatcher->forward([
-                    "controller" => "user",
-                    "action" => "mypage",
-                ]);
-
-            } else {
-                $this->flash->error("Sorry, the following problems were generated: ");                
-                $messages = $user->getMessages();
-    
+            // バリデーションチェック
+            $req_data = $this->request->getPost();
+            if ($userform->isValid($req_data) == false) {
+                // バリデーションNG => エラーメッセージ出力
+                $messages = $userform->getMessages();
+                $err_msg_name = $userform->getMessages("name");
+                
                 foreach ($messages as $message) {
-                    echo $message->getMessage(), "<br/>"; //カンマでいいのか
-                    // echo $message->getMessage()."<br/>";
+                    $this->flashSession->message('error_sm', $message);
+                }
+            } else {
+                // バリデーションOK => DB登録
+                $user = new Users();
+                $user->name     = $this->request->getPost("name");
+                $user->email    = $this->request->getPost("email");
+                $user->password = $this->request->getPost("password");
+
+                $is_success = $user->save();
+    
+                if ($is_success) {
+                    $this->flashSession->success("Thanks for registering!");
+                    // $this->dispatcher->setParam("user", $user);
+                    $this->dispatcher->forward([
+                        "controller" => "user",
+                        "action"     => "mypage",
+                    ]);
+                } else {
+                    $this->flashSession->error("Sorry, the following problems were generated: ");                
+                    $messages = $user->getMessages();
+        
+                    foreach ($messages as $message) {
+                        echo $message->getMessage(), "<br/>";
+                    }
                 }
             }
         }
+        $this->view->userform = $userform;
     }
 
     public function signInAction() {
         if ($this->request->isPost()) {
-            Users::findFirst([
-                "conditions" => "email = ?email AND password = "
+            $user = Users::findFirst([
+                "conditions" => "email = :email: AND password = :password:",
+                "bind"       =>[
+                    "email"     => $this->request->getPost("email"),
+                    "password"  => $this->request->getPost("password"),
+                ]
             ]);
+
+            if (!$user) {
+                // レコードが存在しない場合、メッセージ表示
+                $this->flashSession->error("The email or password is incorrect.");
+            } else {
+                // レコードが存在する場合、ユーザーページへ
+                // $this->user = $user; // クラス変数へセット
+                $this->setUser($user);
+                $this->dispatcher->setParam("user", $user);
+                $this->dispatcher->forward([
+                    "controller" => "user",
+                    "action"     => "mypage",
+                ]);
+            }
         }
     }
 
     public function mypageAction() {
-        $this->view->user = $this->dispatcher->getParam("user");
+        // $this->view->user = $this->dispatcher->getParam("user");
     }
+
+
+
+/* ----------------------------------------------------------------------------------------- */
 
     // YahooのAuthorizationエンドポイントへリダイレクト(認可コード取得のため)
     public function redirect_to_yahooAuthEndPointAction() {
