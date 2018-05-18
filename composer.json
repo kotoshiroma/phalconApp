@@ -1,0 +1,6 @@
+{
+    "name": "phalcon-app",
+    "require": {
+        "phpmailer/phpmailer":"6.0.*"
+    }
+}
