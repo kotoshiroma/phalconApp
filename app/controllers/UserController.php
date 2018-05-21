@@ -15,8 +15,7 @@ class UserController extends ControllerBase
         define('REDIRECT_URL',           $this->config->yahoo_id->redirect_url);
     }
 
-    public function indexAction()
-    {
+    public function indexAction() {
 
     }
 
@@ -35,13 +34,26 @@ class UserController extends ControllerBase
             $is_success = $user->save();
 
             if ($is_success) {
+                // 成功 => 登録完了メール送信
+                
+                // メールテンプレート取得
+                $view = clone $this->view;
+                $view->setPartialsDir(BASE_PATH . "/app/views/mail");
+                $mail_template = $view->getPartial('/user_reg_comp', $user);
+
+                // メール送信(テンプレートを引数に渡す)
+                $mail = new UserRegCompMail();
+                $mail->send($mail_template); 
+                
                 $this->flashSession->success("Thanks for registering!");
+                // ユーザ情報をセッションに保存し、ページ遷移
                 $this->session->set("user", $user);
                 $this->dispatcher->forward([
                     "controller" => "index",
                     "action"     => "index",
                 ]);
             } else {
+                // 失敗
                 $this->flashSession->error("Sorry, the following problems were generated: ");                
                 $messages = $user->getMessages();
     
@@ -89,7 +101,9 @@ class UserController extends ControllerBase
 
     }
 
+    public function mail_user_reg_compAction() {
 
+    }
 
 /* ----------------------------------------------------------------------------------------- */
 
@@ -114,7 +128,7 @@ class UserController extends ControllerBase
     // Yahooからのコールバックアクション
     public function yahoo_callbackAction() {
         
-        require_once('Net/URL2.php');
+        // require_once('Net/URL2.php');
         require_once('HTTP/Request2.php');
 
         // 認可コードをもとに、アクセストークンを取得する
