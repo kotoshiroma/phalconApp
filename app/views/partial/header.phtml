@@ -1,17 +1,18 @@
-<div class="header mt-2">
-    <div class="header-start container">
-        <ul class="nav float-l">
+<div class="container-fluid px-0">
+    <!-- <div class="row"> -->
+    <div class="top_menu clearfix py-2 px-2">
+        <!-- <div class="align-middle clearfix" style="display: inline-block"> -->
+        <ul class="header-left nav float-l">
             <li class="nav-item">
                 <a class="nav-item" href="/index/index">TOP</a>
             </li>
         </ul>
-    </div>
-    <div class="header-end container">
-        <ul class="nav float-r">
-                
+        <!-- </div> -->
+        <ul class="header-right nav float-r">
+            <!-- ログイン済みの場合 -->
             <?php if ($this->session->get("user")->name !== null) { ?>
                     <li class="nav-item flex--centering mr-1">
-                        <a class="nav-item">
+                        <a href="/post/mypage_index" class="nav-item">
                             <?php echo $this->session->get("user")->name; ?>
                         </a>
                     </li>
@@ -19,6 +20,7 @@
                         <a href="/user/logOut" class="nav-item btn btn-primary"><?php echo $t->_("LogOut"); ?></a>
                     </li>
 
+            <!-- 未ログインの場合 -->
             <?php } else { ?>
                     <li class="nav-item">
                         <a href="/user/signUp" class="nav-item btn btn-primary mr-1"><?php echo $t->_("Sign Up"); ?></a>
@@ -29,4 +31,13 @@
             <?php } ?>
         </ul>
     </div>
+    <!-- </div> -->
+    <!-- <div class="row"> -->
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Phalcon PHP</h1>
+            <p class="lead">これは親要素の全ての横方向の空白一杯に広がるように設定変更されたジャンボトロンです。</p>
+        </div>
+    </div>
+    <!-- </div> -->
 </div>
