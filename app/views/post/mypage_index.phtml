@@ -7,7 +7,7 @@
         <h5 class="modal-title"><?php echo $t->_("New Post"); ?></h5>
       </div>
       <div class="modal-body">
-        <!-- <form action="/post/add" method="POST"> -->
+        <!-- フォーム(Start) -->
         <div class="form-group">
             <label for="title"><?php echo $t->_("Title"); ?></label>
             <input type="text" name="title" id="title" class="form-control form_title" placeholder="<?php echo $t->_("Title"); ?>">
@@ -16,9 +16,29 @@
             <label for="body"><?php echo $t->_("Body"); ?></label>
             <textarea name="body" id="body" rows="6" cols="30" class="form-control form_body" placeholder="<?php echo $t->_("Body"); ?>"></textarea>
         </div>
-        
-
-        <!-- </form> -->
+        <div class="form-group">
+            <label for="category"><?php echo $t->_("Category"); ?></label>
+            <?php
+                echo $this->tag->select([
+                    "category",
+                    $categories,
+                    "using" => ["id", "category_name"],
+                    "useEmpty" => true,
+                ]); 
+            ?>
+        </div>
+        <div class="form-group">
+            <label for="sub_category"><?php echo $t->_("SubCategory"); ?></label>
+            <?php
+                echo $this->tag->select([
+                    "sub_category",
+                    $sub_categories,
+                    "using" => ["id", "sub_category_name"],
+                    "useEmpty" => true,
+                ]); 
+            ?>
+        </div>
+        <!-- フォーム(End) -->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $t->_('Close'); ?></button>
@@ -42,7 +62,7 @@
             <div class="border-b mb-5">
                 <h2><?php echo $t->_('Post Management'); ?></h2>
             </div>
-            <table class="table">
+            <table id="post_table" class="table">
                 <thead>
                     <tr>
                         <th><?php echo $t->_('Title'); ?></th>
@@ -57,15 +77,14 @@
                         <tr>
                             <td><?php echo $post->title; ?></td>
                             <td></td>
-                            <td><?php echo $posts->category_id; ?></td>
-                            <td><?php echo $posts->sub_category_id; ?></td>
-                            <td><?php echo $posts->created; ?></td>
+                            <td><?php echo $post->getCategories()->category_name; ?></td>
+                            <td><?php echo $post->getSubCategories()->sub_category_name; ?></td>
+                            <td><?php echo $post->created; ?></td>
                         </tr>
-                    <?php endforeach; ?>                    
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 <script src="/public/js/mypage_index.js"></script>
-

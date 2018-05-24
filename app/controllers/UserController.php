@@ -35,7 +35,7 @@ class UserController extends ControllerBase
 
             if ($is_success) {
                 // 成功 => 登録完了メール送信
-                
+
                 // メールテンプレート取得
                 $view = clone $this->view;
                 $view->setPartialsDir(BASE_PATH . "/app/views/mail");
@@ -43,8 +43,8 @@ class UserController extends ControllerBase
 
                 // メール送信(テンプレートを引数に渡す)
                 $mail = new UserRegCompMail();
-                $mail->send($mail_template); 
-                
+                $mail->send($mail_template);
+
                 $this->flashSession->success("Thanks for registering!");
                 // ユーザ情報をセッションに保存し、ページ遷移
                 $this->session->set("user", $user);
@@ -54,9 +54,9 @@ class UserController extends ControllerBase
                 ]);
             } else {
                 // 失敗
-                $this->flashSession->error("Sorry, the following problems were generated: ");                
+                $this->flashSession->error("Sorry, the following problems were generated: ");
                 $messages = $user->getMessages();
-    
+
                 foreach ($messages as $message) {
                     echo $message->getMessage(), "<br/>";
                 }
@@ -127,17 +127,17 @@ class UserController extends ControllerBase
 
     // Yahooからのコールバックアクション
     public function yahoo_callbackAction() {
-        
+
         // require_once('Net/URL2.php');
         require_once('HTTP/Request2.php');
 
         // 認可コードをもとに、アクセストークンを取得する
         $access_token = $this->get_access_token($_REQUEST['code']);
-        // アクセストークンをもとに、ユーザ情報を取得する 
+        // アクセストークンをもとに、ユーザ情報を取得する
         $userinfo     = $this->get_userinfo($access_token);
         // 取得したユーザ情報(メールアドレス)をもとに、テーブル検索する
         $user = Users::findFirstByEmail($userinfo->email);
-        
+
         if (!$user) {
             // レコードが存在しない場合(未登録の場合)、新規登録フォームへ
             $this->dispatcher->forward([
@@ -186,7 +186,7 @@ class UserController extends ControllerBase
         }
         // 成功
         $res_body = json_decode($res->getBody());
-        
+
         /*
         TODO:IDトークンの検証
 
@@ -194,7 +194,7 @@ class UserController extends ControllerBase
         list($signature, $payload, $header) = $id_token;
         $payload = json_decode(base64_decode($payload));
         */
-        
+
         $access_token = $res_body->access_token;
         return $access_token;
     }

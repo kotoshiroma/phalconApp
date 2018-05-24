@@ -13,6 +13,10 @@ class Posts extends Model {
     public $modified;
     public $deleted;
 
+
+    public $category_name;
+    public $sub_category_name;
+
     public function initialize() {
 
         $this->belongsTo(
