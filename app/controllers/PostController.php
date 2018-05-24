@@ -28,7 +28,8 @@ class PostController extends ControllerBase {
         $post->body             = $this->request->getPost("body");
         // $post->category_id      = $this->request->getPost("body");
         // $post->sub_category_id  = $this->request->getPost("body");
-        error_log($this->request->getPost());
+        // error_log($this->request->getPost());
+        $post_data = $this->request->getPost();
 
         if ($post->save()) {
 

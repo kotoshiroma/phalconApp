@@ -9,7 +9,10 @@ $(function(){
                 data:
                 {
                     'title': $('#new_post_modal').find('.form_title').val(),
-                    'body' : $('#new_post_modal').find('.form_body').val()
+                    'body' : $('#new_post_modal').find('.form_body').val(),
+
+                    'category_id'     : $('#new_post_modal').find('.form_category').val(),
+                    'sub_category_id' : $('#new_post_modal').find('.form_sub_category').val()
                 }
             }
         )
