@@ -23,18 +23,25 @@ class PostController extends ControllerBase {
         $post->body  = $this->request->getPost("body");
 
         if ($post->save()) {
-            
+
         } else {
             $messages = $post->getMessages();
-    
+
             foreach ($messages as $message) {
                 echo $message->getMessage(), "<br/>";
             }
         }
 
         $posts = Posts::find();
-        // $posts_json = json_encode($posts);
+
+        foreach ($posts as $key => $post) {
+            echo ($post->getCategories()->category_name);
+            echo ($post->getSubCategories()->sub_category_name);
+        }
+
         $this->response->setContentType('application/json', 'UTF-8');
+
+        // return json_encode($posts);
         return json_encode($posts);
     }
 

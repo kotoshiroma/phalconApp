@@ -2,27 +2,27 @@
 
 use Phalcon\Mvc\Model;
 
-class Posts extends Model {
+class SubCategories extends Model {
 
     public $id;
-    public $title;
-    public $body;
+    public $sub_category_name;
     public $category_id;
-    public $sub_category_id;
     public $created;
     public $modified;
     public $deleted;
 
     public function initialize() {
 
+        $this->setSource('sub_categories');
+
+        $this->hasMany(
+            "id",
+            "Posts",
+            "sub_category_id"
+        );
         $this->belongsTo(
             "category_id",
             "Categories",
-            "id"
-        );
-        $this->belongsTo(
-            "sub_category_id",
-            "SubCategories",
             "id"
         );
     }
