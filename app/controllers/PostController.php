@@ -7,6 +7,7 @@ class PostController extends ControllerBase {
     }
 
     public function mypage_indexAction() {
+        
         // 記事一覧の表示
         $posts          = Posts::find();
         $categories     = Categories::find();
@@ -15,21 +16,34 @@ class PostController extends ControllerBase {
         $this->view->posts          = $posts;
         $this->view->categories     = $categories;
         $this->view->sub_categories = $sub_categories;
+
     }
 
 
     /* Ajaxメソッド ------------------------------------*/
 
-    // 「投稿する」ボタン押下時に、記事をDBへ保存した後、記事を再取得し画面へ渡す
+    /* 新規投稿モーダルの「投稿する」ボタン押下時の処理 */
+    //  ①記事をDBへ保存する
+    //  ②全記事を再取得し画面へ渡す
     public function addAction() {
 
+        // require(BASE_PATH . "/app/Lib/DEBUG/ChromePhp.php");
+        // ChromePhp::log($this->request->getPost());
+
+        // ①記事をDBへ保存する
         $post = new Posts();
         $post->title            = $this->request->getPost("title");
         $post->body             = $this->request->getPost("body");
-        // $post->category_id      = $this->request->getPost("body");
-        // $post->sub_category_id  = $this->request->getPost("body");
-        // error_log($this->request->getPost());
-        $post_data = $this->request->getPost();
+        if ($this->request->getPost("category_id")) {
+            $post->category_id      = $this->request->getPost("category_id");
+        }
+        if ($this->request->getPost("sub_category_id")) {
+            $post->sub_category_id  = $this->request->getPost("sub_category_id");
+        }
+
+        $post->created  = date('Y-m-d H:i:s');
+        $post->modified = date('Y-m-d H:i:s');
+
 
         if ($post->save()) {
 
@@ -41,25 +55,72 @@ class PostController extends ControllerBase {
             }
         }
 
+        // ②全記事を再取得し画面へ渡す
         $posts = Posts::find();
-
-        $array_posts = array();
-        $i = 0;
-        foreach ($posts as $post) {
-
-            $array_post = get_object_vars($post);
-            $array_post["category_name"]     = $post->getCategories()->category_name;
-            $array_post["sub_category_name"] = $post->getSubCategories()->sub_category_name;
-
-            $array_posts[$i] = $array_post;
-            $i++;
-        }
+        $array_posts = $this->getArrayPosts($posts);
         $this->response->setContentType('application/json', 'UTF-8');
         return json_encode($array_posts);
     }
 
-    // 「保存する」ボタン押下時のDB保存処理
-    public function edit() {
+    /* 記事編集モーダルの「保存する」ボタン押下時の処理 */
+    //  ①記事の変更をDBへ保存する
+    //  ②全記事を再取得し画面へ渡す
+    public function editAction() {
+        
+        // ①記事の変更をDBへ保存する        
+        $post = Posts::findFirstById($this->request->getPost("id"));
+        $post->title = $this->request->getPost("title");
+        $post->body  = $this->request->getPost("body");
+        if ($this->request->getPost("category_id")) {
+            $post->category_id      = $this->request->getPost("category_id");
+        }
+        if ($this->request->getPost("sub_category_id")) {
+            $post->sub_category_id  = $this->request->getPost("sub_category_id");
+        }
+        $post->modified = date('Y-m-d H:i:s');
 
+        if ($post->save()) {
+
+        } else {
+            $messages = $post->getMessages();
+
+            foreach ($messages as $message) {
+                echo $message->getMessage(), "<br/>";
+            }
+        }
+
+        // ②全記事を再取得し画面へ渡す
+        $posts = Posts::find();
+        $array_posts = $this->getArrayPosts($posts);
+        $this->response->setContentType('application/json', 'UTF-8');
+        return json_encode($array_posts);
+    }
+
+    /* カテゴリーidをもとにサブカテゴリーを取得し返却するメソッド */
+    public function getSubCategoryAction() {
+        $sub_categories = SubCategories::find([
+            "conditions" => "category_id = :category_id:",
+            "bind"       =>[
+                "category_id"     => $this->request->getPost("category_id"),
+            ]
+        ]);
+        $this->response->setContentType('application/json', 'UTF-8');
+        return json_encode($sub_categories);
+    }
+
+    /* privateメソッド ------------------------------------*/
+
+    /* $postsを配列にし、リレーションによって取得したカテゴリー名とサブカテゴリー名を追加して返すメソッド */
+    private function getArrayPosts($posts) {
+        $array_posts = array();
+        for ($i = 0; $i < count($posts); $i++) {
+            $array_post = get_object_vars($posts[$i]);
+            $array_post["category_name"]     = $posts[$i]->getCategories()->category_name;
+            $array_post["sub_category_name"] = $posts[$i]->getSubCategories()->sub_category_name;
+
+            $array_posts[$i] = $array_post;
+        }
+
+        return $array_posts;
     }
 }

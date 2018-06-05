@@ -13,12 +13,15 @@ $messages = [
     "Manage Post" => "記事管理",
     "Write Post" => "記事を書く",
     "Category" => "カテゴリー",
-    "Sub Category" => "サブカテゴリー",
+    "SubCategory" => "サブカテゴリー",
+    "Edit" => "編集",
 
     "New Post" => "新規投稿",
+    "Edit Post" => "記事編集",
     "Title" => "タイトル",
     "Body" => "本文",
     "Post" => "投稿する",
+    "Save" => "保存する",
     "Close" => "閉じる",
     "The email or password is incorrect." => "メールアドレスまたはパスワードに誤りがあります",
 ];

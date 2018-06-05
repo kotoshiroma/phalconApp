@@ -7,40 +7,9 @@
         <h5 class="modal-title"><?php echo $t->_("New Post"); ?></h5>
       </div>
       <div class="modal-body">
-        <!-- フォーム(Start) -->
-        <div class="form-group">
-            <label for="title"><?php echo $t->_("Title"); ?></label>
-            <input type="text" name="title" id="title" class="form-control form_title" placeholder="<?php echo $t->_("Title"); ?>">
-        </div>
-        <div class="form-group">
-            <label for="body"><?php echo $t->_("Body"); ?></label>
-            <textarea name="body" id="body" rows="6" cols="30" class="form-control form_body" placeholder="<?php echo $t->_("Body"); ?>"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="category"><?php echo $t->_("Category"); ?></label>
-            <?php
-                echo $this->tag->select([
-                    "category",
-                    $categories,
-                    "using" => ["id", "category_name"],
-                    "useEmpty" => true,
-                    "class" => "form_category",
-                ]); 
-            ?>
-        </div>
-        <div class="form-group">
-            <label for="sub_category"><?php echo $t->_("SubCategory"); ?></label>
-            <?php
-                echo $this->tag->select([
-                    "sub_category",
-                    $sub_categories,
-                    "using" => ["id", "sub_category_name"],
-                    "useEmpty" => true,
-                    "class" => "form_sub_category",
-                ]); 
-            ?>
-        </div>
-        <!-- フォーム(End) -->
+        <form class="modal_form">        
+          <?php $this->partial('partial/post_modal_form'); ?>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $t->_('Close'); ?></button>
@@ -51,12 +20,32 @@
 </div>
 
 <!-- 記事編集モーダル -->
-
+<div class="modal fade" id="edit_post_modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><?php echo $t->_("Edit Post"); ?></h5>
+      </div>
+      <div class="modal-body">
+        <form class="modal_form">
+          <!-- id(非表示フォーム) -->
+          <input type="hidden" name="id" id="id" class="form-control form_id">
+          <?php $this->partial('partial/post_modal_form'); ?>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $t->_('Close'); ?></button>
+        <button type="button" class="btn btn-primary" id="edit_post"><?php echo $t->_('Save'); ?></button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- 記事表示部 -->
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-2 bg-gray">
+            <!-- partial()は、PhalconのViewクラスに用意されているメソッド -->
             <?php $this->partial("partial/sidebar_mypage"); ?>
         </div>
 
@@ -72,16 +61,30 @@
                         <th><?php echo $t->_('Category'); ?></th>
                         <th><?php echo $t->_('SubCategory'); ?></th>
                         <th><?php echo $t->_('Created'); ?></th>
+                        <!-- 記事編集モーダル用データ -->
+                        <th class="d-none"><?php echo $t->_('Id'); ?></th>
+                        <th class="d-none"><?php echo $t->_('Body'); ?></th>
+                        <th class="d-none"><?php echo $t->_('Category Id'); ?></th>
+                        <th class="d-none"><?php echo $t->_('SubCategory Id'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach($posts as $post): ?>
                         <tr>
-                            <td><?php echo $post->title; ?></td>
-                            <td></td>
+                            <td class="title"><?php echo $post->title; ?></td>
+                            <td>
+                                <button data-toggle="modal" data-target="#edit_post_modal" id="<?php echo $post->id; ?>" class="edit_post btn btn-primary btn-xs">
+                                    <?php echo $t->_('Edit'); ?>
+                                </button>
+                            </td>
                             <td><?php echo $post->getCategories()->category_name; ?></td>
                             <td><?php echo $post->getSubCategories()->sub_category_name; ?></td>
                             <td><?php echo $post->created; ?></td>
+                            <!-- 記事編集モーダル用データ -->
+                            <td class="d-none hidden_id"><?php echo $post->id; ?></td>
+                            <td class="d-none hidden_body"><?php echo $post->body; ?></td>
+                            <td class="d-none hidden_category_id"><?php echo $post->category_id; ?></td>
+                            <td class="d-none hidden_sub_category_id"><?php echo $post->sub_category_id; ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

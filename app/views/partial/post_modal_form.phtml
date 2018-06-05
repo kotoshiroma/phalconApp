@@ -1,0 +1,38 @@
+<!-- タイトル -->
+<div class="form-group">
+    <label for="title"><?php echo $t->_("Title"); ?></label>
+    <input type="text" name="title" id="title" class="form-control form_title" placeholder="<?php echo $t->_("Title"); ?>">
+    <!-- <input type="text" name="title" id="title" class="form-control form_title" placeholder="<?php echo $t->_("Title"); ?>"> -->
+    <!-- <div class="invalid-feedback">タイトルを入力してください</div> -->
+</div>
+<!-- 本文 -->     
+<div class="form-group">
+    <label for="body"><?php echo $t->_("Body"); ?></label>
+    <textarea name="body" id="body" rows="6" cols="30" class="form-control form_body" placeholder="<?php echo $t->_("Body"); ?>"></textarea>
+</div>
+<!-- カテゴリー -->             
+<div class="form-group">
+    <div class="row">
+        <div class="col-4">
+            <label for="category"><?php echo $t->_("Category"); ?></label>
+            <?php
+                echo $this->tag->select([
+                    "category",
+                    $categories,
+                    "using" => ["id", "category_name"],
+                    "useEmpty" => true,
+                    "class" => "form_category form-control",
+                ]); 
+            ?>
+        </div>
+    </div>
+</div>
+<!-- サブカテゴリー -->                     
+<div class="form-group">
+    <div class="row">
+        <div class="col-4">
+            <label for="sub_category"><?php echo $t->_("SubCategory"); ?></label>
+            <select name="sub_category" class="form_sub_category form-control"></select>
+        </div>
+    </div>
+</div>

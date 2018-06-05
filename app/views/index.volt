@@ -12,6 +12,7 @@
     </head>
     <body class="body">
         <script src="/public/js/jquery-3.3.1.js"></script>
+        <script src="/public/js/jquery.validate.js"></script>
         <script src="/public/js/bootstrap.bundle.js"></script>
 
         {{ partial("partial/header") }}

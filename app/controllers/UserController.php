@@ -49,8 +49,8 @@ class UserController extends ControllerBase
                 // ユーザ情報をセッションに保存し、ページ遷移
                 $this->session->set("user", $user);
                 $this->dispatcher->forward([
-                    "controller" => "index",
-                    "action"     => "index",
+                    "controller" => "post",
+                    "action"     => "mypage_index",
                 ]);
             } else {
                 // 失敗
@@ -79,11 +79,11 @@ class UserController extends ControllerBase
                 // レコードが存在しない場合、メッセージ表示
                 $this->flashSession->error($this->t->_("The email or password is incorrect."));
             } else {
-                // レコードが存在する場合、セッションにユーザ情報を保存し、トップページへ遷移
+                // レコードが存在する場合、セッションにユーザ情報を保存し、ユーザぺージへ遷移
                 $this->session->set("user", $user);
                 $this->dispatcher->forward([
-                    "controller" => "index",
-                    "action"     => "index",
+                    "controller" => "post",
+                    "action"     => "mypage_index",
                 ]);
             }
         }
@@ -145,11 +145,11 @@ class UserController extends ControllerBase
                 "action"     => "signUp",
             ]);
         } else {
-            // レコードが存在する場合(既存会員の場合)、セッションにユーザ情報を保存し、トップページへ遷移
+            // レコードが存在する場合(既存会員の場合)、セッションにユーザ情報を保存し、ユーザページへ遷移
             $this->session->set("user", $user);
             $this->dispatcher->forward([
-                "controller" => "index",
-                "action"     => "index",
+                "controller" => "post",
+                "action"     => "mypage_index",
             ]);
         }
     }
