@@ -49,22 +49,16 @@ Utility
 }
 
 .bg-gray {
-    background-color: #ddd;
+    /* background-color: #ddd; */
+    background-color: #e6e6e6;
+    
 }
 
 .border-b {
     border-bottom: 2px solid rgb(0,0,0,0.2);
 }
 
-.list_style_none {
-    list-style: none;
-}
-.list_style_none > li {
-    margin-bottom: 17px;
-}
-.list_style_none > li > a {
-    color: black;
-}
+
 
 /*
 -------------------------------------------------------------------------------------
@@ -86,4 +80,38 @@ Posts
 
 #post_table > tbody > tr > td {
     vertical-align: middle;
+}
+
+.sidebar_mypage:hover {
+    /* background-color: aquamarine; */
+    /* opacity: 0.8; */
+}
+
+.list_style_none {
+    list-style: none;
+}
+.ul_sidebar_mypage > li {
+    /* margin-bottom: 17px; */
+    /* padding-left: 15px; */
+}
+.ul_sidebar_mypage > li > a {
+    /* display: block; */
+    display: flex;
+    height: 45px;
+    align-items: center;
+    padding-left: 15px;    
+    color: black;
+    text-decoration-color: black;
+    text-decoration: none;
+}
+.ul_sidebar_mypage > li > a:hover {
+    /* background-color: #e6e6e6; */
+    /* background-color: #ddd;     */
+    background-color:darkgray;
+}
+
+.current {
+    /* background-color:greenyellow; */
+    /* background-color: #ddd; */
+    background-color:darkgray;        
 }

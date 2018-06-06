@@ -1,57 +1,12 @@
-<!-- モーダルウィンドウセクション -->
-<!-- 新規投稿モーダル -->
-<div class="modal fade" id="new_post_modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"><?php echo $t->_("New Post"); ?></h5>
-      </div>
-      <div class="modal-body">
-        <form class="modal_form">        
-          <?php $this->partial('partial/post_modal_form'); ?>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $t->_('Close'); ?></button>
-        <button type="button" class="btn btn-primary" id="add_post"><?php echo $t->_('Post'); ?></button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- 記事編集モーダル -->
-<div class="modal fade" id="edit_post_modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"><?php echo $t->_("Edit Post"); ?></h5>
-      </div>
-      <div class="modal-body">
-        <form class="modal_form">
-          <!-- id(非表示フォーム) -->
-          <input type="hidden" name="id" id="id" class="form-control form_id">
-          <?php $this->partial('partial/post_modal_form'); ?>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $t->_('Close'); ?></button>
-        <button type="button" class="btn btn-primary" id="edit_post"><?php echo $t->_('Save'); ?></button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- 記事表示部 -->
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-2 sidebar_mypage bg-gray px-0">
-            <!-- partial()は、PhalconのViewクラスに用意されているメソッド -->
             <?php $this->partial("partial/sidebar_mypage"); ?>
         </div>
 
-        <div class="col-sm-10 main_part" data-page="manage_post">
+        <div class="col-sm-10 main_part" data-page="sub_category">
             <div class="border-b mb-5">
-                <h2><?php echo $t->_('Post Management'); ?></h2>
+                <h2><?php echo $t->_('SubCategory'); ?></h2>
             </div>
             <table id="post_table" class="table">
                 <thead>
