@@ -83,3 +83,7 @@ Posts
 .mypage_header {
     border-bottom: 2px solid rgb(0,0,0,0.2);
 }
+
+#post_table > tbody > tr > td {
+    vertical-align: middle;
+}
