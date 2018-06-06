@@ -1,14 +1,18 @@
-<ul class="list_style_none">
+<ul class="list_style_none m-0 p-0">
     <li>
-        <a href="#" id="write_post" data-toggle="modal" data-target="#new_post_modal"><?php echo $t->_("Write Post"); ?></a>
+        <i class="fas fa-edit fa-fw"></i>
+        <a href="#" id="new_post" data-toggle="modal" data-target="#new_post_modal"><?php echo $t->_("New Post"); ?></a>
     </li>
     <li>
+        <i class="far fa-file-alt fa-fw"></i>
         <a href="/post/mypage_index"><?php echo $t->_("Manage Post"); ?></a>
     </li>
     <li>
+        <i class="far fa-folder fa-fw"></i>
         <a href="/post/mypage_index"><?php echo $t->_("Category"); ?></a>
     </li>
     <li>
+        <i class="fas fa-folder fa-fw"></i>
         <a href="/post/mypage_index"><?php echo $t->_("SubCategory"); ?></a>
     </li>
 </ul>

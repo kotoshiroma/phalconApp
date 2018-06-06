@@ -2,7 +2,7 @@ $(function(){
 
     /* 「記事を書く」ボタンクリック時イベント */
     //  モーダル内のフォームをクリアする
-    $(document).on('click', '#write_post', function(){
+    $(document).on('click', '#new_post', function(){
         $('#new_post_modal').find('.form_title').val("");
         $('#new_post_modal').find('.form_body').val("");
         $('#new_post_modal').find('.form_category').val("");
@@ -113,7 +113,7 @@ $(function(){
         if (!$('#edit_post_modal').find('.modal_form').valid()) {
             return false;
         }
-        
+
         $.ajax(
             {
                 url:'/post/edit',

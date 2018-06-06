@@ -59,6 +59,12 @@ Utility
 .list_style_none {
     list-style: none;
 }
+.list_style_none > li {
+    margin-bottom: 17px;
+}
+.list_style_none > li > a {
+    color: black;
+}
 
 /*
 -------------------------------------------------------------------------------------

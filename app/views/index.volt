@@ -8,6 +8,7 @@
         <title>Phalcon PHP Framework</title>
         <link rel="stylesheet" href="/public/css/bootstrap.css">
         <link rel="stylesheet" href="/public/css/myapp.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
         <!-- <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->url->get('img/favicon.ico')?>"/> -->
     </head>
     <body class="body">
