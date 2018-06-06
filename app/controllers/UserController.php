@@ -34,7 +34,7 @@ class UserController extends ControllerBase
             $is_success = $user->save();
 
             if ($is_success) {
-                // 成功 => 登録完了メール送信
+                // 成功 => 登録完了メールを送信する
 
                 // メールテンプレート取得
                 $view = clone $this->view;
@@ -49,8 +49,8 @@ class UserController extends ControllerBase
                 // ユーザ情報をセッションに保存し、ページ遷移
                 $this->session->set("user", $user);
                 $this->dispatcher->forward([
-                    "controller" => "post",
-                    "action"     => "mypage_index",
+                    "controller" => "index",
+                    "action"     => "index",
                 ]);
             } else {
                 // 失敗
@@ -95,14 +95,6 @@ class UserController extends ControllerBase
             "controller" => "index",
             "action"     => "index",
         ]);
-    }
-
-    public function mypageAction() {
-
-    }
-
-    public function mail_user_reg_compAction() {
-
     }
 
 /* ----------------------------------------------------------------------------------------- */
