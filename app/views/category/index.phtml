@@ -1,50 +1,97 @@
-<div class="container-fluid ">
-    <div class="row">
-        <div class="col-sm-2 sidebar_mypage bg-gray px-0">
-            <?php $this->partial("partial/sidebar_mypage"); ?>
-        </div>
-
-        <div class="col-sm-10 main_part" data-page="category">
-            <div class="border-b mb-5">
-                <h2><?php echo $t->_('Category'); ?></h2>
-            </div>
-            <table id="post_table" class="table">
-                <thead>
-                    <tr>
-                        <th><?php echo $t->_('Title'); ?></th>
-                        <th><?php echo $t->_('Edit'); ?></th>
-                        <th><?php echo $t->_('Category'); ?></th>
-                        <th><?php echo $t->_('SubCategory'); ?></th>
-                        <th><?php echo $t->_('Created'); ?></th>
-                        <!-- 記事編集モーダル用データ -->
-                        <th class="d-none"><?php echo $t->_('Id'); ?></th>
-                        <th class="d-none"><?php echo $t->_('Body'); ?></th>
-                        <th class="d-none"><?php echo $t->_('Category Id'); ?></th>
-                        <th class="d-none"><?php echo $t->_('SubCategory Id'); ?></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach($posts as $post): ?>
-                        <tr>
-                            <td class="title"><?php echo $post->title; ?></td>
-                            <td>
-                                <button data-toggle="modal" data-target="#edit_post_modal" id="<?php echo $post->id; ?>" class="edit_post btn btn-primary btn-xs">
-                                    <?php echo $t->_('Edit'); ?>
-                                </button>
-                            </td>
-                            <td><?php echo $post->getCategories()->category_name; ?></td>
-                            <td><?php echo $post->getSubCategories()->sub_category_name; ?></td>
-                            <td><?php echo $post->created; ?></td>
-                            <!-- 記事編集モーダル用データ -->
-                            <td class="d-none hidden_id"><?php echo $post->id; ?></td>
-                            <td class="d-none hidden_body"><?php echo $post->body; ?></td>
-                            <td class="d-none hidden_category_id"><?php echo $post->category_id; ?></td>
-                            <td class="d-none hidden_sub_category_id"><?php echo $post->sub_category_id; ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+<!-- モーダルウィンドウセクション -->
+<!-- 新規投稿モーダル -->
+<div class="modal fade" id="modal_addCategory" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><?php echo $t->_("Add Category"); ?></h5>
+      </div>
+      <div class="modal-body">
+        <form class="modal_form">        
+          <?php $this->partial('partial/category_modal_form'); ?>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $t->_('Close'); ?></button>
+        <button type="button" class="btn btn-primary" id="submit_add"><?php echo $t->_('Add'); ?></button>
+      </div>
     </div>
+  </div>
 </div>
-<script src="/public/js/mypage_index.js"></script>
+
+<!-- 記事編集モーダル -->
+<div class="modal fade" id="modal_editCategory" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><?php echo $t->_("Edit Category"); ?></h5>
+      </div>
+      <div class="modal-body">
+        <form class="modal_form">
+          <!-- id(非表示フォーム) -->
+          <input type="hidden" name="id" id="id" class="form-control form_id">
+          <?php $this->partial('partial/category_modal_form'); ?>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $t->_('Close'); ?></button>
+        <button type="button" class="btn btn-primary" id="submit_edit"><?php echo $t->_('Save'); ?></button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- モーダルウィンドウセクション(終わり) -->
+
+<!-- メインページ -->
+<div class="container-fluid ">
+  <div class="row">
+    <!-- サイドバー -->
+    <div class="col-sm-2 sidebar_mypage bg-gray px-0">
+      <?php $this->partial("partial/sidebar_mypage"); ?>
+    </div>
+
+    <!-- カテゴリー表示部 -->
+    <div class="col-sm-10 main_part" data-page="category">
+      <!-- カテゴリータイトル -->
+      <div class="border-b mb-3">
+        <h2><?php echo $t->_('Category'); ?></h2>
+      </div>
+
+      <!-- カテゴリー追加ボタン -->
+      <button class="btn btn-success my-3" id="open_modal_addCategory" data-toggle="modal" data-target="#modal_addCategory">
+        <?php echo $t->_('Add Category'); ?>
+      </button>
+
+      <!-- カテゴリー 一覧テーブル -->
+      <table id="category_table" class="table">
+        <thead>
+          <tr>
+            <th><?php echo $t->_('Category'); ?></th>
+            <th><?php echo $t->_('Edit'); ?></th>
+            <th><?php echo $t->_('Created'); ?></th>
+            <th><?php echo $t->_('Modified'); ?></th>
+            <!-- 編集モーダル用データ -->
+            <th class="d-none"><?php echo $t->_('Id'); ?></th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach($categories as $category): ?>
+            <tr>
+              <td class="category_name"><?php echo $category->category_name; ?></td>
+              <td>
+                <button data-toggle="modal" data-target="#modal_editCategory" class="open_modal_editCategory btn btn-primary btn-xs">
+                  <?php echo $t->_('Edit'); ?>
+                </button>
+              </td>
+              <td><?php echo $category->created; ?></td>
+              <td><?php echo $category->modified; ?></td>
+              <!-- 編集モーダル用データ -->
+              <td class="d-none hidden_id"><?php echo $category->id; ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script src="/public/js/category_index.js"></script>

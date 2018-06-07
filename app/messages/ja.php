@@ -24,4 +24,13 @@ $messages = [
     "Save" => "保存する",
     "Close" => "閉じる",
     "The email or password is incorrect." => "メールアドレスまたはパスワードに誤りがあります",
+
+    "Add Category" => "カテゴリー追加",
+    "Edit Category" => "カテゴリー編集",
+    "Category Name" => "カテゴリー名",
+
+    "Add SubCategory" => "サブカテゴリー追加",
+    "Edit SubCategory" => "サブカテゴリー編集",
+    "SubCategory Name" => "サブカテゴリー名",
+
 ];

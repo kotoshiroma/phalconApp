@@ -1,0 +1,24 @@
+<!-- カテゴリーセレクトボックス -->             
+<div class="form-group">
+    <div class="row">
+        <div class="col-4">
+            <label for="category"><?php echo $t->_("Category"); ?></label>
+            <?php
+                echo $this->tag->select([
+                    "category",
+                    $categories,
+                    "using" => ["id", "category_name"],
+                    "useEmpty" => true,
+                    "class" => "form_category form-control",
+                ]); 
+            ?>
+        </div>
+    </div>
+</div>
+<!-- サブカテゴリー名 -->
+<div class="form-group">
+    <label for="sub_category_name"><?php echo $t->_("SubCategory Name"); ?></label>
+    <input type="text" name="sub_category_name" id="sub_category_name" class="form-control form_sub_category_name" 
+           placeholder="<?php echo $t->_("SubCategory Name"); ?>"
+    >
+</div>

@@ -7,16 +7,10 @@ class PostController extends ControllerBase {
     }
 
     public function mypage_indexAction() {
-        
         // 記事一覧の表示
-        $posts          = Posts::find();
-        $categories     = Categories::find();
-        $sub_categories = SubCategories::find();
-
-        $this->view->posts          = $posts;
-        $this->view->categories     = $categories;
-        $this->view->sub_categories = $sub_categories;
-
+        $this->view->posts          = Posts::find();
+        $this->view->categories     = Categories::find();
+        $this->view->sub_categories = SubCategories::find();
     }
 
 

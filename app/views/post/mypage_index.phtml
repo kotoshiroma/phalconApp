@@ -61,6 +61,7 @@
                         <th><?php echo $t->_('Category'); ?></th>
                         <th><?php echo $t->_('SubCategory'); ?></th>
                         <th><?php echo $t->_('Created'); ?></th>
+                        <th><?php echo $t->_('Modified'); ?></th>
                         <!-- 記事編集モーダル用データ -->
                         <th class="d-none"><?php echo $t->_('Id'); ?></th>
                         <th class="d-none"><?php echo $t->_('Body'); ?></th>
@@ -80,6 +81,7 @@
                             <td><?php echo $post->getCategories()->category_name; ?></td>
                             <td><?php echo $post->getSubCategories()->sub_category_name; ?></td>
                             <td><?php echo $post->created; ?></td>
+                            <td><?php echo $post->modified; ?></td>
                             <!-- 記事編集モーダル用データ -->
                             <td class="d-none hidden_id"><?php echo $post->id; ?></td>
                             <td class="d-none hidden_body"><?php echo $post->body; ?></td>

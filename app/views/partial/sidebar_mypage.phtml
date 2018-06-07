@@ -1,28 +1,22 @@
-<!-- <ul class="list-group list_style_none m-0 p-0"> -->
 <ul class="ul_sidebar_mypage list_style_none m-0 p-0">
-    <!-- <li class="list-group-item new_post"> -->
     <li class="new_post">
         <a href="#" id="new_post" data-toggle="modal" data-target="#new_post_modal">
             <i class="fas fa-edit fa-fw"></i>
             <?php echo $t->_("New Post"); ?>
         </a>
     </li>
-    <!-- <li class="list-group-item manage_post"> -->
     <li class="manage_post">
         <a href="/post/mypage_index">
             <i class="far fa-file-alt fa-fw"></i>        
             <?php echo $t->_("Manage Post"); ?>
         </a>
     </li>
-    <!-- <li class="list-group-item category"> -->
     <li class="category">
         <a href="/category/index">
-        <!-- <a href="/category/index" class="btn"> -->
             <i class="far fa-folder fa-fw"></i>
             <?php echo $t->_("Category"); ?>
         </a>
     </li>
-    <!-- <li class="list-group-item sub_category"> -->
     <li class="sub_category">
         <a href="/subcategory/index">
             <i class="fas fa-folder fa-fw"></i>
@@ -34,14 +28,9 @@
 <script>
     $(function() {
         var page_name = $('.main_part').data('page');
-        // $('.list-group').find('li.' + page_name).addClass('active');
         $('.ul_sidebar_mypage').find('li.' + page_name).addClass('current');
 
         // メニューから新規投稿を選択した場合
-        // $(document).on('click', '.list-group-item.new_post', function(){
-        //     $(this).closest('.list-group').find('.list-group-item').removeClass('active');
-        //     $(this).addClass('active'); //ページ遷移したら消える
-        // });
         // $(document).on('click', 'li.new_post', function(){
         //     $(this).closest('ul').find('li').removeClass('current');
         //     $(this).addClass('current'); //ページ遷移したら消える

@@ -70,6 +70,15 @@ Utility
 /*
 --------------------------------------------------------
 /* 
+ページ間共通
+--------------------------------------------------------
+*/
+
+
+
+/*
+--------------------------------------------------------
+/* 
 Posts
  mypage_index
 --------------------------------------------------------
@@ -82,18 +91,10 @@ Posts
     vertical-align: middle;
 }
 
-.sidebar_mypage:hover {
-    /* background-color: aquamarine; */
-    /* opacity: 0.8; */
-}
-
 .list_style_none {
     list-style: none;
 }
-.ul_sidebar_mypage > li {
-    /* margin-bottom: 17px; */
-    /* padding-left: 15px; */
-}
+
 .ul_sidebar_mypage > li > a {
     /* display: block; */
     display: flex;
@@ -106,12 +107,12 @@ Posts
 }
 .ul_sidebar_mypage > li > a:hover {
     /* background-color: #e6e6e6; */
-    /* background-color: #ddd;     */
-    background-color:darkgray;
+    background-color: #ddd;
+    /* background-color:darkgray; */
 }
 
 .current {
-    /* background-color:greenyellow; */
+    background-color:greenyellow;
     /* background-color: #ddd; */
-    background-color:darkgray;        
+    /* background-color:darkgray;  */
 }
