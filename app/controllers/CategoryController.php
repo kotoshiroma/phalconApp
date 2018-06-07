@@ -15,6 +15,16 @@ class CategoryController extends ControllerBase
     /* -- Ajaxメソッド ------------------------------------------------------- */
     public function addAction() {
 
+        // HTTPメソッドのチェック
+        if (!$this->request->isPost()) {
+            return $this->dispatcher->forward(
+                [
+                    "controller" => "category",
+                    "action"     => "index",
+                ]
+            );
+        }
+
         // ①カテゴリーをDBへ保存する
         $category = new Categories();
         $category->category_name = $this->request->getPost("category_name");
@@ -38,6 +48,16 @@ class CategoryController extends ControllerBase
     }
 
     public function editAction() {
+        
+        // HTTPメソッドのチェック
+        if (!$this->request->isPost()) {
+            return $this->dispatcher->forward(
+                [
+                    "controller" => "category",
+                    "action"     => "index",
+                ]
+            );
+        }
         
         // ①カテゴリーをDBへ保存する        
         $category = Categories::findFirstById($this->request->getPost("id"));

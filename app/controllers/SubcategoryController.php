@@ -15,6 +15,16 @@ class SubcategoryController extends ControllerBase
     /* -- Ajaxメソッド ------------------------------------------------------- */
     public function addAction() {
 
+        // HTTPメソッドのチェック
+        if (!$this->request->isPost()) {
+            return $this->dispatcher->forward(
+                [
+                    "controller" => "subcategory",
+                    "action"     => "index",
+                ]
+            );
+        }
+
         // ①サブカテゴリーをDBへ保存する
         $sub_category = new SubCategories();
         $sub_category->sub_category_name = $this->request->getPost("sub_category_name");
@@ -41,6 +51,16 @@ class SubcategoryController extends ControllerBase
 
     public function editAction() {
         
+        // HTTPメソッドのチェック
+        if (!$this->request->isPost()) {
+            return $this->dispatcher->forward(
+                [
+                    "controller" => "subcategory",
+                    "action"     => "index",
+                ]
+            );
+        }
+
         // ①サブカテゴリーの変更をDBへ保存する        
         $sub_category = SubCategories::findFirstById($this->request->getPost("id"));
         $sub_category->category_id        = $this->request->getPost("category_id");

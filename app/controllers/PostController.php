@@ -10,17 +10,24 @@ class PostController extends ControllerBase {
         // 記事一覧の表示
         $this->view->posts          = Posts::find();
         $this->view->categories     = Categories::find();
-        $this->view->sub_categories = SubCategories::find();
+        // $this->view->sub_categories = SubCategories::find();
     }
 
 
     /* Ajaxメソッド ------------------------------------*/
 
     /* 新規投稿モーダルの「投稿する」ボタン押下時の処理 */
-    //  ①記事をDBへ保存する
-    //  ②全記事を再取得し画面へ渡す
     public function addAction() {
 
+        // HTTPメソッドのチェック
+        if (!$this->request->isPost()) {
+            return $this->dispatcher->forward(
+                [
+                    "controller" => "post",
+                    "action"     => "mypage_index",
+                ]
+            );
+        }
         // require(BASE_PATH . "/app/Lib/DEBUG/ChromePhp.php");
         // ChromePhp::log($this->request->getPost());
 
@@ -57,10 +64,17 @@ class PostController extends ControllerBase {
     }
 
     /* 記事編集モーダルの「保存する」ボタン押下時の処理 */
-    //  ①記事の変更をDBへ保存する
-    //  ②全記事を再取得し画面へ渡す
     public function editAction() {
         
+        // HTTPメソッドのチェック
+        if (!$this->request->isPost()) {
+            return $this->dispatcher->forward(
+                [
+                    "controller" => "post",
+                    "action"     => "mypage_index",
+                ]
+            );
+        }
         // ①記事の変更をDBへ保存する        
         $post = Posts::findFirstById($this->request->getPost("id"));
         $post->title = $this->request->getPost("title");
